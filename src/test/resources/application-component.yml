@@ -1,6 +1,6 @@
 spring:
   flyway:
-    locations: "classpath:db/migrations,classpath:db/seed-data"
+    locations: "classpath:db/migrations,classpath:db/test-fixtures/component,classpath:db/seed-data"
     baseline-on-migrate: true
     validate-on-migrate: true
   jpa:
