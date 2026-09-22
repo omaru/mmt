@@ -1,0 +1,11 @@
+spring:
+  flyway:
+    locations: "classpath:db/migrations,classpath:db/test-fixtures/integration"
+    baseline-on-migrate: true
+    validate-on-migrate: true
+  jpa:
+    hibernate:
+      ddl-auto: none
+logging:
+  level:
+    org.flywaydb: DEBUG
