@@ -21,6 +21,6 @@ public class TypeRepositoryPortImpl implements TypeRepositoryPort {
 
   @Override
   public Type findById(Integer id) {
-    return typeRepository.findById(id).map(EntityMapper::toType).orElse(null);
+    return typeRepository.findWithModelById(id).map(EntityMapper::toTypeWithModel).orElse(null);
   }
 }

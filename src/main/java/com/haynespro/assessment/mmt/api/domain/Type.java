@@ -13,6 +13,13 @@ import lombok.ToString;
 @ToString
 public class Type {
   private final Integer id;
+
+  /**
+   * Only set when a single type is loaded. It is {@code null} for the types inside {@link
+   * ModelTypes}, which already hold their model once.
+   */
+  private final Model model;
+
   private final String name;
   private final String year;
 }

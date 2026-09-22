@@ -21,10 +21,10 @@ public class Data {
   public static final Model MILAN = new Model(4, MERCURY, "C (Passenger)", "Milan");
 
   // ---------- TYPES ----------
-  public static final Type MUSTANG_38L_2003 = new Type(3326, "3.8L", "2003");
-  public static final Type MUSTANG_46L_2V_2003 = new Type(3327, "4.6L (2V)", "2003");
-  public static final Type MUSTANG_46L_4V_2003 = new Type(3328, "4.6L (4V)", "2003");
-  public static final Type MUSTANG_MACH1_2003 = new Type(3329, "Mach I 4.6L (4V)", "2003");
+  public static final Type MUSTANG_38L_2003 = new Type(3326, MUSTANG, "3.8L", "2003");
+  public static final Type MUSTANG_46L_2V_2003 = new Type(3327, MUSTANG, "4.6L (2V)", "2003");
+  public static final Type MUSTANG_46L_4V_2003 = new Type(3328, MUSTANG, "4.6L (4V)", "2003");
+  public static final Type MUSTANG_MACH1_2003 = new Type(3329, MUSTANG, "Mach I 4.6L (4V)", "2003");
 
   // ---------- COLLECTIONS ----------
   public static final List<Make> ALL_MAKES = List.of(FORD, LINCOLN, MERCURY);

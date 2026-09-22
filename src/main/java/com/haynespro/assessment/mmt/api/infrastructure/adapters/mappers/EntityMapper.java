@@ -24,9 +24,16 @@ public final class EntityMapper {
         .build();
   }
 
-  // must not touch modelEntity: it is a lazy association and reading it would load the model
-  // (and its make) for every type
   public static Type toType(TypeEntity entity) {
     return Type.builder().id(entity.getId()).name(entity.getName()).year(entity.getYear()).build();
+  }
+
+  public static Type toTypeWithModel(TypeEntity entity) {
+    return Type.builder()
+        .id(entity.getId())
+        .model(toModel(entity.getModelEntity()))
+        .name(entity.getName())
+        .year(entity.getYear())
+        .build();
   }
 }

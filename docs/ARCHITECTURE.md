@@ -12,7 +12,7 @@ The service follows a hexagonal (ports & adapters) architecture. All production 
 ```
 com.haynespro.assessment.mmt.api
 ├── domain             Business model: Make, Model, Type, ModelTypes
-│   └── exceptions     Domain errors (ModelNotFoundException)
+│   └── exceptions     Domain errors: NotFoundException and its Make/Model/TypeNotFoundException subclasses
 ├── application
 │   ├── ports          Interfaces the application needs from the outside (MakeRepositoryPort, TypeRepositoryPort, ...)
 │   ├── services       IdentificationService: thin access to the ports
@@ -48,18 +48,24 @@ IdentificationApi ──▶ Get…UseCase.execute(Command) ──▶ Identificat
 - **Infrastructure** plugs the outside world in:
   - Controllers call use cases and map the domain result to a view:
     `ResponseEntity.ok(TypeResponses.from(getTypesByModel.execute(new GetTypesByModelUseCase.Command(modelId))))`.
-  - `ApiExceptionHandler` turns domain exceptions into HTTP errors, e.g. `ModelNotFoundException` → 404.
+  - `ApiExceptionHandler` turns domain exceptions into HTTP errors: any `NotFoundException` → 404.
   - Adapters implement the ports on top of Spring Data JPA and use `EntityMapper` to turn entities into domain
     objects.
   - Spring beans are wired in `config` (`ServicesConfig`, `UseCasesConfig`), so the application layer stays
     framework-free.
 
-### Why `Type` has no `Model`
+### When `Type` carries its `Model`
 
 `TypeEntity.modelEntity` is a lazy `@ManyToOne`. Reading it while mapping would load the model (and its make) as soon
-as a type is converted. The domain `Type` therefore only carries `id`, `name` and `year`, and `EntityMapper.toType`
-never touches `modelEntity`, so listing the types of a model is a single query. When the model is needed alongside
-its types, the use case loads it once and returns both as `ModelTypes`.
+as a type is converted. There are two mapping paths:
+
+- **Listing types (`/types/{modelId}`):** `EntityMapper.toType` never touches `modelEntity`, so the association stays
+  lazy and listing is a single query. These `Type`s have `model = null`. The use case loads the model once and returns
+  it with the types as `ModelTypes`. `TypeResponses` exposes the model once plus a list of `TypeSummaryResponse`
+  (`id`, `name`, `year`).
+- **A single type (`/type/{typeId}`):** `TypeRepository.findWithModelById` uses an `@EntityGraph` to fetch the type,
+  its model and the make in one joined query. `EntityMapper.toTypeWithModel` then fills `Type.model`, and
+  `TypeResponse` includes it as a `ModelResponse`.
 
 ## Running the rules
 

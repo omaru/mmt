@@ -15,11 +15,11 @@ import lombok.ToString;
 @ToString
 public class TypeResponses {
   private final ModelResponse model;
-  private final List<TypeResponse> types;
+  private final List<TypeSummaryResponse> types;
 
   public static TypeResponses from(ModelTypes modelTypes) {
     return new TypeResponses(
         ModelResponse.from(modelTypes.getModel()),
-        modelTypes.getTypes().stream().map(TypeResponse::from).toList());
+        modelTypes.getTypes().stream().map(TypeSummaryResponse::from).toList());
   }
 }
