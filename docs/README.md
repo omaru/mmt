@@ -1,4 +1,4 @@
-#Make Model Type Service
+# Make Model Type Service
 
 This Identification Service is a REST service that returns make, model and type information from our database. The code
 has been provided and as you can see all requests directly cause a database query to be executed.
